@@ -1,0 +1,17 @@
+@charset "UTF-8";
+#wrap {width: 1200px; margin: auto;}
+.gnb {height: 100px; background-color: #39C9CE;}
+.search-box {height: 50px; background-color: #41EA65;}
+.search {height: 30px;}
+.select {width: 306px; height: 306px; border: solid 3px #39C9CE;}
+.store-text {font-size: 20px;}
+
+.sign-up-select-box {width: 700px; height: 500px; margin: auto;}
+.boss-select-box {width:300px; height:300px; border-radius: 30px; background-color : #41EA65;}
+.user-select-box {width:300px; height:300px; border-radius: 30px; background-color : #39C9CE;}
+
+.sign-up {width: 600px; margin: auto;}
+.sign-up-box {width: 600px; background-color : WhiteSmoke;} 
+a {text-decoration-line: none; color:#000;}
+a:hover {text-decoration:none; color:#000;}
+.footer {width: 1200px; height: 100px;}
