@@ -27,7 +27,7 @@
 				<span>닉네임</span> <input type="text" id="nickName" name="nickName" class="form-control col-9" placeholder="닉네임을 입력해주세요.">
 			</div>
 			<div class="pl-3 pt-3">
-				<span>전화번호</span> <input type="text" id="phoneNumber" name="phoneNumber" class="form-control col-9" placeholder="ex)01012345678">
+				<span>전화번호</span> <input type="text" id="phoneNumber" name="phoneNumber" class="form-control col-9" placeholder="ex)010-1234-5678">
 			</div>
 			<div class="pl-3 pt-3">
 				<span>이메일</span> <input type="text" id="email" name="email" class="form-control col-9" placeholder="이메일을 입력해주세요.">
@@ -55,11 +55,9 @@ $(document).ready(function() {
 		}
 		
 		$.ajax({
-			url : "/user/is_duplicated_id",
-			data : {
-				"loginId" : loginId
-			},
-			success : function(data) {
+			url: "/user/is_duplicated_id",
+			data: {"loginId" : loginId},
+			success: function(data) {
 				if (data.result) { // 중복인 경우
 					$('#idCheckDuplicated').removeClass('d-none');
 				} else { // 사용가능
@@ -95,6 +93,7 @@ $(document).ready(function() {
 				$('#confirmPassword').val('');
 				return;
 			}
+			
 			let name = $('#name').val().trim();
 			if (name == '') {
 				alert("이름을 입력하세요.");
@@ -110,12 +109,31 @@ $(document).ready(function() {
 				alert("전화번호를 입력하세요.");
 				return;
 			}
+			
 			let email = $('#email').val().trim();
 			if (email == '') {
 				alert("이메일 주소를 입력하세요.");
 				return;
 			}
 			
+			// 비밀번호, 전화번호, 이메일 정규식(보안성 강화)
+			let reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+			let regPhone = /^\d{3}-\d{3,4}-\d{4}$/;
+			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+			
+			if (reg.test(password) === false) {
+				alert('비밀번호는 8자 이상이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.');
+				return false;
+			} else if (regPhone.test(phoneNumber) === false) {
+				alert("잘못된 휴대전화번호입니다. 다시 입력해주세요.");
+		    	return false;
+			} else if (regEmail.test(email) === false) {
+				alert("잘못된 이메일형식입니다. 다시 입력해주세요.");
+				return false;
+			} else {
+				return;
+			}
+
 			// 아이디 중복확인이 완료되었는지 확인
 			//-- idCheckOk <div> 클래스에 d-none이 없으면 사용 가능
 			// idCheckOk d-none이 있으면 => alert 띄운다.
@@ -127,12 +145,27 @@ $(document).ready(function() {
 			let url = $('#signUpForm').attr('action'); // form에 있는 action 주소를 가져오기
 			let params = $('#signUpForm').serialize();
 
-			$.post(url, params).done(function(data) {
-				if (data.result == "success") {
-					alert("가입을 환영합니다! 로그인을 해주세요.");
-					location.href = "/user/sign_in_view";
-				} else {
-					alert("가입에 실패했습니다. 다시 시도해주세요.");
+			$.ajax({
+				type: "post",
+				url: "/user/user_sign_up",
+				data: {
+					"loginId" : loginId,
+					"password" : password,
+					"name" : name,
+					"nickName" : nickName,
+					"phoneNumber" : phoneNumber,
+					"email" : email
+					},
+				success: function(data) {
+					if (data.result == "success") {
+						alert("가입을 환영합니다! 로그인을 해주세요.");
+						location.href = "/user/sign_in_view";
+					} else {
+						alert(data.error_message);
+					}
+				},
+				error: function(error) {
+					alert("회원가입에 실패했습니다. 관리자에게 문의해주세요.");
 				}
 			});
 	});

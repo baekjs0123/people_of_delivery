@@ -11,4 +11,58 @@
 		WHERE
 			`loginId` = #{loginId}
 	</select>
+	
+	<insert id="insertUser" parameterType="map">
+		INSERT INTO `user`
+		(
+			`loginId`
+			,`password`
+			,`name`
+			,`nickName`
+			,`phoneNumber`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{loginId}
+			,#{password}
+			,#{name}
+			,#{nickName}
+			,#{phoneNumber}
+			,#{email}
+			,"user"
+			,NOW()
+			,NOW()
+		)
+	</insert>
+	
+	<insert id="insertBossUser" parameterType="map">
+		INSERT INTO `user`
+		(
+			`loginId`
+			,`password`
+			,`name`
+			,`nickName`
+			,`phoneNumber`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{loginId}
+			,#{password}
+			,#{name}
+			,#{nickName}
+			,#{phoneNumber}
+			,#{email}
+			,"boss"
+			,NOW()
+			,NOW()
+		)
+	</insert>
 </mapper>

@@ -36,3 +36,118 @@
 		</div>
 	</div>
 </div>
+<script>
+$(document).ready(function() {
+	$('#checkDuplicateBtn').on('click', function() {
+		//alert("중복확인 버튼");
+		let loginId = $('#loginId').val().trim();
+		
+		// 경고 문구 초기화
+		$('#idCheckLength').addClass('d-none');
+		$('#idCheckDuplicated').addClass('d-none');
+		$('#idCheckOk').addClass('d-none');
+		
+		if (loginId.length < 6) {
+			$('#idCheckLength').removeClass('d-none');
+			return;
+		}
+		
+		$.ajax({
+			url: "/user/is_duplicated_id",
+			data: {"loginId" : loginId},
+			success: function(data) {
+				if (data.result) { // 중복인 경우
+					$('#idCheckDuplicated').removeClass('d-none');
+				} else { // 사용가능
+					$('#idCheckOk').removeClass('d-none');
+				}
+			},
+			error : function(error) {
+				alert("아이디 중복확인에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+		});
+	});
+	
+	$('#signUpBtn').on('click', function() {
+		//alert("가입하기 버튼");
+			let loginId = $('#loginId').val().trim();
+			if (loginId == '') {
+				alert("아이디를 입력하세요.");
+				return;
+			}
+
+			let password = $('#password').val().trim();
+			let confirmPassword = $('#confirmPassword').val().trim();
+			if (password == '' || confirmPassword == '') {
+				alert("비밀번호를 입력하세요.");
+				return;
+			}
+			
+			// 비밀번호 확인 일치 여부
+			if (password != confirmPassword) {
+				alert("비밀번호가 일치하지 않습니다. 다시 입력하세요.");
+				// 텍스트박스의 값을 초기화 한다.
+				$('#password').val('');
+				$('#confirmPassword').val('');
+				return;
+			}
+			
+			let name = $('#name').val().trim();
+			if (name == '') {
+				alert("이름을 입력하세요.");
+				return;
+			}
+			let nickName = $('#nickName').val().trim();
+			if (nickName == '') {
+				alert("닉네임을 입력하세요.");
+				return;
+			}
+			let phoneNumber = $('#phoneNumber').val().trim();
+			if (phoneNumber == '') {
+				alert("전화번호를 입력하세요.");
+				return;
+			}
+			
+			let email = $('#email').val().trim();
+			if (email == '') {
+				alert("이메일 주소를 입력하세요.");
+				return;
+			}
+
+			// 아이디 중복확인이 완료되었는지 확인
+			//-- idCheckOk <div> 클래스에 d-none이 없으면 사용 가능
+			// idCheckOk d-none이 있으면 => alert 띄운다.
+			if ($('#idCheckOk').hasClass('d-none')) {
+				alert("아이디 중복확인을 해주세요.");
+				return;
+			}
+			
+			let url = $('#signUpForm').attr('action'); // form에 있는 action 주소를 가져오기
+			let params = $('#signUpForm').serialize();
+
+			$.ajax({
+				type: "post",
+				url: "/user/boss_sign_up",
+				data: {
+					"loginId" : loginId,
+					"password" : password,
+					"name" : name,
+					"nickName" : nickName,
+					"phoneNumber" : phoneNumber,
+					"email" : email
+					},
+				success: function(data) {
+					if (data.result == "success") {
+						alert("가입을 환영합니다! 로그인을 해주세요.");
+						location.href = "/user/sign_in_view";
+					} else {
+						alert(data.error_message);
+					}
+				},
+				error: function(error) {
+					alert("회원가입에 실패했습니다. 관리자에게 문의해주세요.");
+				}
+			});
+	});
+});
+</script>
