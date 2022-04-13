@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.people_of_delivery.user.dao.UserDAO;
+import com.people_of_delivery.user.model.User;
 
 @Service
 public class UserBO {
@@ -15,13 +16,20 @@ public class UserBO {
 		return userDAO.existUserByLoginId(loginId);
 	}
 	
-	public int addUser(String loginId, String password, String name, String nickName,
-			String phoneNumber, String email) {
-		return userDAO.insertUser(loginId, password, name, nickName, phoneNumber, email);
+	public User getUserByLoginId(String loginId) {
+		return userDAO.selectUserByLoginId(loginId);
+	}
+	public User getUserByLoginIdAndPassword(String loginId, String password) {
+		return userDAO.selectUserByLoginIdAndPassword(loginId, password);
 	}
 	
-	public int addBossUser(String loginId, String password, String name, String nickName,
+	public int addUser(String loginId, String password, String salt, String name, String nickName,
 			String phoneNumber, String email) {
-		return userDAO.insertBossUser(loginId, password, name, nickName, phoneNumber, email);
+		return userDAO.insertUser(loginId, password, salt, name, nickName, phoneNumber, email);
+	}
+	
+	public int addBossUser(String loginId, String password, String salt, String name, String nickName,
+			String phoneNumber, String email) {
+		return userDAO.insertBossUser(loginId, password, salt, name, nickName, phoneNumber, email);
 	}
 }

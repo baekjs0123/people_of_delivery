@@ -118,7 +118,7 @@ $(document).ready(function() {
 			
 			// 비밀번호, 전화번호, 이메일 정규식(보안성 강화)
 			let reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-			let regPhone = /^\d{3}-\d{3,4}-\d{4}$/;
+			let regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 			let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 			
 			if (reg.test(password) === false) {
@@ -126,14 +126,11 @@ $(document).ready(function() {
 				return false;
 			} else if (regPhone.test(phoneNumber) === false) {
 				alert("잘못된 휴대전화번호입니다. 다시 입력해주세요.");
-		    	return false;
+			    return false;
 			} else if (regEmail.test(email) === false) {
 				alert("잘못된 이메일형식입니다. 다시 입력해주세요.");
 				return false;
-			} else {
-				return;
 			}
-
 			// 아이디 중복확인이 완료되었는지 확인
 			//-- idCheckOk <div> 클래스에 d-none이 없으면 사용 가능
 			// idCheckOk d-none이 있으면 => alert 띄운다.
@@ -141,9 +138,6 @@ $(document).ready(function() {
 				alert("아이디 중복확인을 해주세요.");
 				return;
 			}
-			
-			let url = $('#signUpForm').attr('action'); // form에 있는 action 주소를 가져오기
-			let params = $('#signUpForm').serialize();
 
 			$.ajax({
 				type: "post",

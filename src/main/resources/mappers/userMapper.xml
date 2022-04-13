@@ -12,11 +12,51 @@
 			`loginId` = #{loginId}
 	</select>
 	
+	<select id="selectUserByLoginId" parameterType="string" resultType="com.people_of_delivery.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`salt`
+			,`name`
+			,`nickName`
+			,`phoneNumber`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+	</select>
+	
+	<select id="selectUserByLoginIdAndPassword" parameterType="map" resultType="com.people_of_delivery.user.model.User">
+		SELECT
+			`id`
+			,`loginId`
+			,`password`
+			,`salt`
+			,`name`
+			,`nickName`
+			,`phoneNumber`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+			AND `password` = #{password}
+	</select>
+	
 	<insert id="insertUser" parameterType="map">
 		INSERT INTO `user`
 		(
 			`loginId`
 			,`password`
+			,`salt`
 			,`name`
 			,`nickName`
 			,`phoneNumber`
@@ -29,6 +69,7 @@
 		(
 			#{loginId}
 			,#{password}
+			,#{salt}
 			,#{name}
 			,#{nickName}
 			,#{phoneNumber}
@@ -44,6 +85,7 @@
 		(
 			`loginId`
 			,`password`
+			,`salt`
 			,`name`
 			,`nickName`
 			,`phoneNumber`
@@ -56,6 +98,7 @@
 		(
 			#{loginId}
 			,#{password}
+			,#{salt}
 			,#{name}
 			,#{nickName}
 			,#{phoneNumber}
