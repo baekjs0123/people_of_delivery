@@ -139,7 +139,7 @@ $(document).ready(function() {
 
 			$.ajax({
 				type: "post",
-				url: "/user/user_sign_up",
+				url: "/user/boss_sign_up",
 				data: {
 					"loginId" : loginId,
 					"password" : password,
@@ -151,7 +151,7 @@ $(document).ready(function() {
 				success: function(data) {
 					if (data.result == "success") {
 						alert("가입을 환영합니다! 로그인을 해주세요.");
-						location.href = "/user/boss/sign_in_view";
+						location.href = "/user/sign_in_view";
 					} else {
 						alert(data.error_message);
 					}

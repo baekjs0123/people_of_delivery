@@ -3,9 +3,20 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="gnb">
 	<div class="d-flex justify-content-center pt-4">
-		<div class="logo d-flex justify-content-center align-items-center">
-			<h1>배달의 민족</h1>
-		</div>
+		<c:if test="${userType == 'user' || empty userType}">
+		<a href="/main/user/main_view">
+			<div class="logo d-flex justify-content-center align-items-center">
+				<h1>배달의 민족</h1>
+			</div>
+		</a>
+		</c:if>
+		<c:if test="${userType == 'boss'}">
+		<a href="/main/boss/main_view">
+			<div class="logo d-flex justify-content-center align-items-center">
+				<h1>배달의 민족</h1>
+			</div>
+		</a>
+		</c:if>
 	</div>
 	<div class="login-info d-flex justify-content-end">
 		<c:if test="${not empty userName}">

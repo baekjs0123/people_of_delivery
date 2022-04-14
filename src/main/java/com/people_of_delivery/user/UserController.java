@@ -44,8 +44,20 @@ public class UserController {
 		session.removeAttribute("userName");
 		session.removeAttribute("userNickName");
 		session.removeAttribute("userLoginId");
+		session.removeAttribute("userType");
 		
 		return "redirect:/main/user/main_view";
 	}
 	
+	@RequestMapping("/mypage_view")
+	public String userMypageView(Model model) {
+		model.addAttribute("viewName", "/user/mypage");
+		return "template/layout";
+	}
+	
+	@RequestMapping("/update_user_information_view")
+	public String updateUserInformationView(Model model) {
+		model.addAttribute("viewName", "/user/update_user_information");
+		return "template/layout";
+	}
 }

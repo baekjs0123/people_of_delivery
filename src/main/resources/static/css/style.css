@@ -17,6 +17,16 @@
 .button-box {width: 220px; margin: auto;}
 .buttons {width: 100px;}
 
+.menu-category {width: 890px; margin: auto;}
+.menu-category-box {width: 890px;}
+.category-img-box {width: 150px; height: 150px;}
+.category-name {width: 150px; font-size: 20px;}
+
+.store-list {width: 1000px; margin: auto;}
+.store-list-box {width: 1000px;}
+.store {background-color : WhiteSmoke;}
+.store-box {width: 200px; font-size: 20px;}
+
 a {text-decoration-line: none; color:#000;}
 a:hover {text-decoration:none; color:#000;}
 .footer {width: 1200px; height: 100px;}

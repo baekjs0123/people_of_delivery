@@ -146,6 +146,7 @@ public class UserRestController {
 			session.setAttribute("userName", user.getName());
 			session.setAttribute("userNickName", user.getNickName());
 			session.setAttribute("userLoginId", user.getLoginId());
+			session.setAttribute("userType", user.getType());
 		} else if (userPwCheck != null && userPwCheck.getPassword() != encryptPassword) {
 			// DB의 패스워드와 불일치 할 때
 			result.put("result", "error");
