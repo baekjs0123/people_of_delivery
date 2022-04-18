@@ -30,17 +30,19 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		Integer userId = (Integer)session.getAttribute("userId");
 		
-		// 비로그인 && uri path가 /post
+		// 비로그인 && uri path가 /user/mypage
 		// -> 로그인 페이지로 리다이렉트 return false
-		/*
-		 * if (userId == null && uri.startsWith("/post")) {
-		 * response.sendRedirect("/user/sign_in_view"); return false; }
-		 */
+		
+		 if (userId == null && uri.startsWith("/user/mypage")) {
+			 response.sendRedirect("/user/sign_in_view"); 
+			 return false;
+		 }
+		 
 		
 		// 로그인 && uri path가 /user
 		// -> 게시판 목록으로 리다이렉트 return false
-		if (userId != null && uri.startsWith("/user")) {
-			//response.sendRedirect("/post/post_list_view");
+		if (userId != null && uri.startsWith("/user/sign")) {
+			response.sendRedirect("/main/user/main_view");
 			return false;
 		}
 		
@@ -51,7 +53,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response,
 			Object handler, ModelAndView modelAndView) {
 		String uri = request.getRequestURI();
-		logger.info("###### postHadle: " + uri);
+		logger.info("###### postHandle: " + uri);
 	}
 	
 	@Override

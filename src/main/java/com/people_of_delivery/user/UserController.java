@@ -50,8 +50,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("/mypage_view")
-	public String userMypageView(Model model) {
+	public String userMypageView(Model model,
+			HttpSession session) {
 		model.addAttribute("viewName", "/user/mypage");
+		
+		String userLoginId = (String)session.getAttribute("userLoginId");
+		model.addAttribute("userLoginId", userLoginId);
+		
 		return "template/layout";
 	}
 	

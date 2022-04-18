@@ -27,6 +27,11 @@
 .store {background-color : WhiteSmoke;}
 .store-box {width: 200px; font-size: 20px;}
 
+.modal-content {width: 600px; margin: auto;}
+
+.update-user-inform {width: 600px; margin: auto;}
+.update-user-inform-box {background-color : WhiteSmoke;}
+
 a {text-decoration-line: none; color:#000;}
 a:hover {text-decoration:none; color:#000;}
 .footer {width: 1200px; height: 100px;}

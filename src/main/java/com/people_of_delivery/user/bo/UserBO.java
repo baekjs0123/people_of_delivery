@@ -32,4 +32,9 @@ public class UserBO {
 			String phoneNumber, String email) {
 		return userDAO.insertBossUser(loginId, password, salt, name, nickName, phoneNumber, email);
 	}
+	
+	public int updateUserByuserId(int userId, String name, String nickName, String phoneNumber,
+			String email) {
+		return userDAO.updateUserByuserId(userId, name, nickName, phoneNumber, email);
+	}
 }

@@ -108,4 +108,15 @@
 			,NOW()
 		)
 	</insert>
+	
+	<update id="updateUserByuserId" parameterType="map">
+		UPDATE `user`
+		SET 
+			`name` = #{name}
+			, `nickName` = #{nickName}
+			, `phoneNumber` = #{phoneNumber}
+			, `email` = #{email}
+		WHERE
+			`id` = #{userId}
+	</update>
 </mapper>

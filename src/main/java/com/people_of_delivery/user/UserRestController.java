@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -159,4 +160,55 @@ public class UserRestController {
 		
 		return result;
 	}
+	
+	
+	@PostMapping("/password_check")
+	public Map<String, Object> passwordCheck(
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password) {
+		Map<String, Object> result = new HashMap<>();
+		
+		if (loginId.equals("")) {
+			result.put("result", "error");
+			result.put("error_message", "로그인 여부를 확인하세요.");
+		}
+		// password 해싱
+		String salt = userBO.getUserByLoginId(loginId).getSalt();
+		String encryptPassword = EncryptUtils.SHA512(password, salt);
+		
+		User user = userBO.getUserByLoginIdAndPassword(loginId, encryptPassword);
+		
+		if (user != null) {
+			// 비밀번호가 일치하는 유저가 있을 시 수정하는 페이지로 이동
+			result.put("result", "success");
+		} else {
+			result.put("result", "error");
+			result.put("error_message", "비밀번호를 확인하세요.");
+		}
+		
+		return result;
+	 }
+	
+	@PutMapping("/update_user_information")
+	public Map<String, Object> updateUser(
+			@RequestParam("name") String name,
+			@RequestParam("nickName") String nickName,
+			@RequestParam("phoneNumber") String phoneNumber,
+			@RequestParam("email") String email,
+			HttpSession session) {
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		
+		int row = userBO.updateUserByuserId(userId, name, nickName, phoneNumber, email);
+		
+		if (row < 1) {
+			result.put("result", "error");
+			result.put("error_message", "정보 변경에 실패했습니다.");
+		}
+		
+		return result;
+	}
+	 
 }

@@ -31,4 +31,11 @@ public interface UserDAO {
 			@Param("nickName") String nickName,
 			@Param("phoneNumber") String phoneNumber,
 			@Param("email") String email);
+	
+	public int updateUserByuserId(
+			@Param("userId") int userId,
+			@Param("name") String name,
+			@Param("nickName") String nickName,
+			@Param("phoneNumber") String phoneNumber,
+			@Param("email") String email);
 }
