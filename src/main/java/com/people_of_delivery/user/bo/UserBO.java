@@ -33,8 +33,12 @@ public class UserBO {
 		return userDAO.insertBossUser(loginId, password, salt, name, nickName, phoneNumber, email);
 	}
 	
-	public int updateUserByuserId(int userId, String name, String nickName, String phoneNumber,
+	public int updateUserByUserId(int userId, String name, String nickName, String phoneNumber,
 			String email) {
-		return userDAO.updateUserByuserId(userId, name, nickName, phoneNumber, email);
+		return userDAO.updateUserByUserId(userId, name, nickName, phoneNumber, email);
+	}
+	
+	public int updateUserPasswordByUserId(int userId, String password, String salt) {
+		return userDAO.updateUserPasswordByUserId(userId, password, salt);
 	}
 }

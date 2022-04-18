@@ -161,11 +161,17 @@ public class UserRestController {
 		return result;
 	}
 	
-	
+	/**
+	 * 비밀번호 체크
+	 * @param loginId
+	 * @param password
+	 * @return
+	 */
 	@PostMapping("/password_check")
 	public Map<String, Object> passwordCheck(
 			@RequestParam("loginId") String loginId,
-			@RequestParam("password") String password) {
+			@RequestParam("password") String password,
+			HttpSession session) {
 		Map<String, Object> result = new HashMap<>();
 		
 		if (loginId.equals("")) {
@@ -189,6 +195,15 @@ public class UserRestController {
 		return result;
 	 }
 	
+	/**
+	 * 내 정보 수정하기
+	 * @param name
+	 * @param nickName
+	 * @param phoneNumber
+	 * @param email
+	 * @param session
+	 * @return
+	 */
 	@PutMapping("/update_user_information")
 	public Map<String, Object> updateUser(
 			@RequestParam("name") String name,
@@ -201,7 +216,7 @@ public class UserRestController {
 		Map<String, Object> result = new HashMap<>();
 		result.put("result", "success");
 		
-		int row = userBO.updateUserByuserId(userId, name, nickName, phoneNumber, email);
+		int row = userBO.updateUserByUserId(userId, name, nickName, phoneNumber, email);
 		
 		if (row < 1) {
 			result.put("result", "error");
@@ -210,5 +225,32 @@ public class UserRestController {
 		
 		return result;
 	}
-	 
+	
+	@PutMapping("/update_password")
+	public Map<String, Object> updatePassword(
+			@RequestParam("password") String password,
+			HttpSession session) {
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("result", "error");
+			result.put("error_message", "로그인 여부를 확인하세요.");
+		}
+		
+		// password 해싱
+		String salt = EncryptUtils.Salt();
+		String encryptPassword = EncryptUtils.SHA512(password, salt);
+		
+		int row = userBO.updateUserPasswordByUserId(userId, encryptPassword, salt);
+		
+		if (row < 1) {
+			result.put("result", "error");
+			result.put("error_message", "비밀번호 변경에 실패했습니다.");
+		}
+		
+		return result;
+	}
 }

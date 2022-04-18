@@ -109,13 +109,22 @@
 		)
 	</insert>
 	
-	<update id="updateUserByuserId" parameterType="map">
+	<update id="updateUserByUserId" parameterType="map">
 		UPDATE `user`
 		SET 
 			`name` = #{name}
 			, `nickName` = #{nickName}
 			, `phoneNumber` = #{phoneNumber}
 			, `email` = #{email}
+		WHERE
+			`id` = #{userId}
+	</update>
+	
+	<update id="updateUserPasswordByUserId" parameterType="map">
+		UPDATE `user`
+		SET 
+			`password` = #{password}
+			,`salt` = #{salt}
 		WHERE
 			`id` = #{userId}
 	</update>
