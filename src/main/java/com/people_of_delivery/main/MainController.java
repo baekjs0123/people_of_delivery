@@ -20,4 +20,15 @@ public class MainController {
 		
 		return "template/layout";
 	}
+	
+	@RequestMapping("/boss/main_view")
+	public String bossMainView(Model model,
+			HttpSession session) {
+		model.addAttribute("viewName", "main/boss/main");
+		
+		String userType = (String) session.getAttribute("userType");
+		model.addAttribute("userType", userType);
+		
+		return "template/layout";
+	}
 }

@@ -3,8 +3,8 @@
 <div class="update-user-inform mt-5">
 	<h1>내 정보 수정하기</h1>
 	<div class="update-user-inform-box">
-		<div class="pl-5 pt-3 ">
-			<span>이름</span> <input type="text" id="name" name="name" class="form-control col-10" placeholder="이름을 입력해주세요." value="">
+		<div class="pl-5 pt-3">
+			<span>이름</span> <input type="text" id="name" name="name" class="form-control col-10" placeholder="이름을 입력해주세요.">
 		</div>
 		<div class="pl-5 pt-3">
 			<span>닉네임</span> <input type="text" id="nickName" name="nickName" class="form-control col-10" placeholder="닉네임을 입력해주세요.">

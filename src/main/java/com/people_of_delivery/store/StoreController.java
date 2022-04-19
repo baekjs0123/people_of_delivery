@@ -15,4 +15,21 @@ public class StoreController {
 		
 		return "template/layout";
 	}
+	
+	@RequestMapping("/create_store_view")
+	public String createStoreView(Model model) {
+		
+		model.addAttribute("viewName", "store/create_store_view");
+		
+		return "template/layout";
+	}
+	
+	@RequestMapping("/update_store_view")
+	public String updateStoreView(Model model) {
+		
+		model.addAttribute("viewName", "store/update_store_view");
+		
+		return "template/layout";
+	}
+	
 }
