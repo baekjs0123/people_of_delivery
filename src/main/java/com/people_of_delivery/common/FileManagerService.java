@@ -35,14 +35,14 @@ public class FileManagerService {
 		Path path = Paths.get(filePath + fileName);
 		Files.write(path, bytes);
 		
-		// http://localhost/images/baekjs0123_16205748673/sun.png
-		return "/images/" + directoryName + fileName;
+		// http://localhost/download_images/baekjs0123_16205748673/sun.png
+		return "/download_images/" + directoryName + fileName;
 	}
 	
 	public void deleteFile(String imagePath) throws IOException {
 		// /images/aaaa_1648032101643/Spring_quiz.PNG
 		// -> 제거: /images/
-		Path path = Paths.get(FILE_UPLOAD_PATH + imagePath.replace("/images/", ""));
+		Path path = Paths.get(FILE_UPLOAD_PATH + imagePath.replace("/download_images/", ""));
 		
 		// 이미지 삭제
 		if (Files.exists(path)) {

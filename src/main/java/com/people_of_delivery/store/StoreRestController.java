@@ -58,13 +58,13 @@ public class StoreRestController {
 			@RequestParam("category") String category,
 			@RequestParam("registrationNumber") String registrationNumber,
 			@RequestParam("phoneNumber") String phoneNumber,
-			@RequestParam("minimumPrice") int minimumPrice,
+			@RequestParam(value = "minimumPrice", required = false) int minimumPrice,
 			@RequestParam("openTime") Date openTime,
 			@RequestParam("closeTime") Date closeTime,
 			@RequestParam("holiday") String holiday,
 			@RequestParam("deliveryArea") String deliveryArea,
 			@RequestParam("deliveryCost") int deliveryCost,
-			@RequestParam("facilities") String facilities,
+			@RequestParam(value = "facilities", required = false) String facilities,
 			@RequestParam("file") MultipartFile file,
 			HttpSession session) {
 		Integer userId = (Integer)session.getAttribute("userId");

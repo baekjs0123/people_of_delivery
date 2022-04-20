@@ -291,14 +291,22 @@ $(document).ready(function() {
 		formData.append("category", category);
 		formData.append("registrationNumber", registrationNumber);
 		formData.append("phoneNumber", phoneNumber);
-		formData.append("minimumPrice", minimumPrice);
+		if (minimumPrice != "") {
+			formData.append("minimumPrice", minimumPrice);
+		}
 		formData.append("openTime", openTime);
 		formData.append("closeTime", closeTime);
 		formData.append("holiday", holiday);
 		formData.append("deliveryArea", deliveryArea);
 		formData.append("deliveryCost", deliveryCost);
-		formData.append("facilities", facilities);
-		formData.append("file", $('#file')[0].files[0]);
+		if (facilities != "") {
+			formData.append("facilities", facilities);
+		}
+		formData.append("file", $("#file")[0].files[0]);
+		
+		for (let key of formData.keys()) {
+			console.log(key, ":", formData.get(key));
+		}
 		
 		$.ajax({
 			type:"post"
