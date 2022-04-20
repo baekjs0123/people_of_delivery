@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.people_of_delivery.store.dao.StoreDAO">
+	<select id="existStoreByname" parameterType="string" resultType="boolean">
+		SELECT
+			COUNT(1)
+		FROM
+			`store`
+		WHERE
+			`name` = #{name}
+	</select>
+	
+	<select id="existStoreByRegistrationNumber" parameterType="string" resultType="boolean">
+		SELECT
+			COUNT(1)
+		FROM
+			`store`
+		WHERE
+			`registrationNumber` = #{registrationNumber}
+	</select>
+	
+	<select id="existStoreByPhoneNumber" parameterType="string" resultType="boolean">
+		SELECT
+			COUNT(1)
+		FROM
+			`store`
+		WHERE
+			`phoneNumber` = #{phoneNumber}
+	</select>
+	
+	<insert id="insertStore">
+		INSERT INTO `store`
+		(
+			`userId`
+			,`name`
+			,`category`
+			,`registrationNumber`
+			,`phoneNumber`
+			,`minimumPrice`
+			,`openTime`
+			,`closeTime`
+			,`holiday`
+			,`deliveryArea`
+			,`deliveryCost`
+			,`facilities`
+			,`storeImagePath`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{userId}
+			,#{name}
+			,#{category}
+			,#{registrationNumber}
+			,#{phoneNumber}
+			,#{minimumPrice}
+			,#{openTime}
+			,#{closeTime}
+			,#{holiday}
+			,#{deliveryArea}
+			,#{deliveryCost}
+			,#{facilities}
+			,NOW()
+			,NOW()
+		)
+	</insert>
+</mapper>

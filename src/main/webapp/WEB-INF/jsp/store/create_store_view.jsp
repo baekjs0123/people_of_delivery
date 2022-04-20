@@ -76,7 +76,7 @@
 			</div>
 		</div>
 		<div class="d-flex justify-content-center pt-3 pb-3">
-			<button type="button" class="btn btn-info">추가하기</button>
+			<button type="button" id="addBtn" class="btn btn-info">추가하기</button>
 		</div>
 	</div>
 </div>
@@ -108,6 +108,217 @@ $(document).ready(function() {
 		}
 		
 		$('#fileName').text(fileName);
+	});
+	
+	$('#checkNameDuplicateBtn').on('click', function() {
+		//alert("매장명 중복확인");
+		let name = $('#name').val().trim();
+		
+		// 경고 문구 초기화
+		$('#nameCheckDuplicated').addClass('d-none');
+		$('#nameCheckOk').addClass('d-none');
+		
+		if (name.length < 1) {
+			alert("매장명은 최소 1글자 이상 입력해주세요.");
+			return;
+		}
+		
+		$.ajax({
+			url: "/store/is_duplicated_name",
+			data: {"name" : name},
+			success: function(data) {
+				if (data.result) { // 중복인 경우
+					$('#nameCheckDuplicated').removeClass('d-none');
+				} else { // 사용가능
+					$('#nameCheckOk').removeClass('d-none');
+				}
+			},
+			error : function(error) {
+				alert("매장명 중복확인에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+		});
+	});
+	
+	$('#checkRgNumDuplicateBtn').on('click', function() {
+		//alert("사업자등록번호 중복확인");
+		let registrationNumber = $('#registrationNumber').val().trim();
+		
+		// 경고 문구 초기화
+		$('#rgNumCheckDuplicated').addClass('d-none');
+		$('#rgNumCheckOk').addClass('d-none');
+		
+		if (registrationNumber.length != 10) {
+			alert("사업자등록번호 10자리를 다시 입력해주세요.");
+			return;
+		}
+		
+		let reg= /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/;
+
+		if (reg.test(registrationNumber) === false) {
+			alert('사업자등록번호는 10자리이며 숫자만 입력가능합니다. 다시 입력해주세요.');
+			return false;
+		}
+		
+		$.ajax({
+			url: "/store/is_duplicated_rgNum",
+			data: {"registrationNumber" : registrationNumber},
+			success: function(data) {
+				if (data.result) { // 중복인 경우
+					$('#rgNumCheckDuplicated').removeClass('d-none');
+				} else { // 사용가능
+					$('#rgNumCheckOk').removeClass('d-none');
+				}
+			},
+			error : function(error) {
+				alert("매장명 중복확인에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+		});
+	});
+	
+	$('#checkPhNumDuplicateBtn').on('click', function() {
+		//alert("사업자등록번호 중복확인");
+		let phoneNumber = $('#phoneNumber').val().trim();
+		
+		// 경고 문구 초기화
+		$('#phNumCheckDuplicated').addClass('d-none');
+		$('#phNumCheckOk').addClass('d-none');
+		
+		let regPhone = /^(0[2-8][0-5]?)-?([1-9]{1}[0-9]{2,3})-?([0-9]{4})$/;
+
+		if (regPhone.test(phoneNumber) === false) {
+			alert('잘못된 번호입니다. 전화번호를 다시 입력해주세요.');
+			return false;
+		}
+		
+		$.ajax({
+			url: "/store/is_duplicated_phoneNumber",
+			data: {"phoneNumber" : phoneNumber},
+			success: function(data) {
+				if (data.result) { // 중복인 경우
+					$('#phNumCheckDuplicated').removeClass('d-none');
+				} else { // 사용가능
+					$('#phNumCheckOk').removeClass('d-none');
+				}
+			},
+			error : function(error) {
+				alert("매장명 중복확인에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+		});
+	});
+	
+	$('#addBtn').on('click', function() {
+		//alert("추가하기");
+		let name = $('#name').val().trim();
+		if (name == '') {
+			alert("매장명을 입력하세요.");
+			return;
+		}
+		
+		let category = $('#category').val().trim();
+		if (category == '') {
+			alert("업종카테고리를 입력하세요.");
+			return;
+		}
+		
+		let registrationNumber = $('#registrationNumber').val().trim();
+		if (registrationNumber == '') {
+			alert("사업자등록번호를 입력하세요.");
+			return;
+		}
+		
+		let phoneNumber = $('#phoneNumber').val().trim();
+		if (phoneNumber == '') {
+			alert("매장 전화번호를 입력하세요.");
+			return;
+		}
+		
+		let openTime = $('#openTime').val().trim();
+		if (openTime == '') {
+			alert("오픈 시간을 입력하세요.");
+			return;
+		}
+		
+		let closeTime = $('#closeTime').val().trim();
+		if (closeTime == '') {
+			alert("마감 시간을 입력하세요.");
+			return;
+		}
+		
+		let holiday = $('#holiday').val().trim();
+		if (holiday == '') {
+			alert("휴무일을 입력하세요.");
+			return;
+		}
+		
+		let deliveryArea = $('#deliveryArea').val().trim();
+		if (deliveryArea == '') {
+			alert("배달지역을 입력하세요.");
+			return;
+		}
+		
+		let deliveryCost = $('#deliveryCost').val().trim();
+		if (deliveryCost == '') {
+			alert("배달비를 입력하세요.");
+			return;
+		}
+		
+		let file = $('#file').val();
+		if (file == '') {
+			alert("매장대표사진을 첨부하세요.");
+			return;
+		}
+		
+		if ($('#nameCheckOk').hasClass('d-none')) {
+			alert("매장명 중복확인을 해주세요.");
+			return;
+		}
+		
+		if ($('#rgNumCheckOk').hasClass('d-none')) {
+			alert("사업자등록번호 중복확인을 해주세요.");
+			return;
+		}
+		
+		if ($('#phNumCheckOk').hasClass('d-none')) {
+			alert("매장전화번호 중복확인을 해주세요.");
+			return;
+		}
+		
+		let minimumPrice = $('#minimumPrice').val().trim();
+		let facilities = $('#facilities').val().trim();
+		
+		let formData = new FormData();
+		formData.append("name", name);
+		formData.append("category", category);
+		formData.append("registrationNumber", registrationNumber);
+		formData.append("phoneNumber", phoneNumber);
+		formData.append("minimumPrice", minimumPrice);
+		formData.append("openTime", openTime);
+		formData.append("closeTime", closeTime);
+		formData.append("holiday", holiday);
+		formData.append("deliveryArea", deliveryArea);
+		formData.append("deliveryCost", deliveryCost);
+		formData.append("facilities", facilities);
+		formData.append("file", $('#file')[0].files[0]);
+		
+		$.ajax({
+			type:"post"
+			, url:"/store/create_store"
+			, data: formData
+			, enctype: "multipart/form-data" // 파일 업로드를 위한 필수 설정
+			, processData: false // 파일 업로드를 위한 필수 설정
+			, contentType: false // 파일 업로드를 위한 필수 설정
+			, success: function(data) {
+				if (data.result == "success") {
+					alert("매장이 성공적으로 등록되었습니다.");
+					location.href = "/main/boss/main_view";
+				} else {
+					alret(data.error_message);
+				}
+			}
+			, error: function(e) {
+				alert("매장 등록에 실패했습니다. 관리자에게 문의 해주세요.");
+			}
+		});
 	});
 });
 </script>

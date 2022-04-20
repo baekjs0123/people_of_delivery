@@ -226,6 +226,12 @@ public class UserRestController {
 		return result;
 	}
 	
+	/**
+	 * 비밀번호 수정하기
+	 * @param password
+	 * @param session
+	 * @return
+	 */
 	@PutMapping("/update_password")
 	public Map<String, Object> updatePassword(
 			@RequestParam("password") String password,
