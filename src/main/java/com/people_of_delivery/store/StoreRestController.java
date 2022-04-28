@@ -1,6 +1,5 @@
 package com.people_of_delivery.store;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ import com.people_of_delivery.store.bo.StoreBO;
 @RequestMapping("/store")
 @RestController
 public class StoreRestController {
-
+	
 	@Autowired
 	private StoreBO storeBO;
 	
@@ -58,23 +57,50 @@ public class StoreRestController {
 			@RequestParam("category") String category,
 			@RequestParam("registrationNumber") String registrationNumber,
 			@RequestParam("phoneNumber") String phoneNumber,
-			@RequestParam(value = "minimumPrice", required = false) int minimumPrice,
-			@RequestParam("openTime") Date openTime,
-			@RequestParam("closeTime") Date closeTime,
+			@RequestParam(value = "minimumPrice", required = false) Integer minimumPrice,
+			@RequestParam("openTime") String openTime,
+			@RequestParam("closeTime") String closeTime,
 			@RequestParam("holiday") String holiday,
 			@RequestParam("deliveryArea") String deliveryArea,
 			@RequestParam("deliveryCost") int deliveryCost,
 			@RequestParam(value = "facilities", required = false) String facilities,
 			@RequestParam("file") MultipartFile file,
 			HttpSession session) {
+		
 		Integer userId = (Integer)session.getAttribute("userId");
 		
-		int row = storeBO.addStore(minimumPrice, name, category, registrationNumber, phoneNumber, userId, openTime, closeTime, holiday, deliveryArea, deliveryCost, facilities, file);
+		int row = storeBO.addStore(userId, name, category, registrationNumber, phoneNumber, minimumPrice, openTime, closeTime, holiday, deliveryArea, deliveryCost, facilities, file);
 		Map<String, Object> result = new HashMap<>();
 		result.put("result", "success");
 		if (row < 1) {
 			result.put("result", "error");
 			result.put("error_message", "매장등록에 실패했습니다. 다시 시도해주세요.");
+		}
+		
+		return result;
+	}
+	
+	@PostMapping("/update_store")
+	public Map<String, Object> updateStore(
+			@RequestParam("storeId") int storeId,
+			@RequestParam(value = "minimumPrice", required = false) Integer minimumPrice,
+			@RequestParam("openTime") String openTime,
+			@RequestParam("closeTime") String closeTime,
+			@RequestParam("holiday") String holiday,
+			@RequestParam("deliveryArea") String deliveryArea,
+			@RequestParam("deliveryCost") int deliveryCost,
+			@RequestParam(value = "facilities", required = false) String facilities,
+			@RequestParam("file") MultipartFile file,
+			HttpSession session) {
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		int row = storeBO.updateStore(userId, storeId, minimumPrice, openTime, closeTime, holiday, deliveryArea, deliveryCost, facilities, file);
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		if (row < 1) {
+			result.put("result", "error");
+			result.put("error_message", "매장수정에 실패했습니다. 다시 시도해주세요.");
 		}
 		
 		return result;

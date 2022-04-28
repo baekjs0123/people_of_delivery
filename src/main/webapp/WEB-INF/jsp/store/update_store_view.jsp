@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div class="create-store mt-5">
 	<h1>내 가게 수정하기</h1>
 	<div class="create-store-box">
 		<div class="pl-5 pt-3">
-			<span>매장 전화번호</span><span class="text-danger">*</span>
-			<div class="d-flex">
-				<input type="text" id="phoneNumber" class="form-control col-10" placeholder="-을 빼고 입력해주세요.">
-				<button type="button" id="checkPhNumDuplicateBtn" class="btn btn-success ml-3">중복확인</button>
-			</div>
-			<small id="phNumCheckDuplicated" class="d-none text-danger">이미 존재하는 전화번호입니다.</small>
-			<small id="phNumCheckOk" class="d-none text-success">사용가능한 전화번호입니다.</small>
+			<span>가게 선택</span>
+			<select id="storeSelect">
+			<c:forEach items="${storeList}" var="store">
+				<option id="storeId" value="${store.id}">${store.name}</option>
+			</c:forEach>
+			</select>
 		</div>
 		<div class="pl-5 pt-3">
 			<span>최소 주문금액</span><input type="text" id="minimumPrice" class="form-control col-10" placeholder="금액을 입력해주세요.">
@@ -42,12 +43,24 @@
 			</div>
 		</div>
 		<div class="d-flex justify-content-center pt-3 pb-3">
-			<button type="button" class="btn btn-info">수정하기</button>
+			<button type="button" id="updateBtn" class="btn btn-info">수정하기</button>
 		</div>
 	</div>
 </div>
 <script>
 $(document).ready(function() {
+	$('#storeSelect').on('change', function() {
+		//alert("가게 선택");
+		let storeId = $('#storeSelect').val();
+		//alert(storeId);
+		
+		$.ajax({
+			type:"get"
+			, url:"/store/update_store_view"
+			, data: {"storeId" : storeId}
+		});
+	});
+	
 	// 파일 업로드 이미지 버튼 클릭 => 파일 선택 창이 떠야함
 	$('#fileUploadBtn').on('click', function(e) {
 		e.preventDefault(); // 위로 올라가는 현상 방지
@@ -74,6 +87,91 @@ $(document).ready(function() {
 		}
 		
 		$('#fileName').text(fileName);
+	});
+	
+	$('#updateBtn').on('click', function() {
+		//alert("수정하기");
+		let storeId = $('#storeSelect').val();
+		
+		let openTime = $('#openTime').val().trim();
+		if (openTime == '') {
+			alert("오픈 시간을 입력하세요.");
+			return;
+		}
+		
+		let closeTime = $('#closeTime').val().trim();
+		if (closeTime == '') {
+			alert("마감 시간을 입력하세요.");
+			return;
+		}
+		
+		let holiday = $('#holiday').val().trim();
+		if (holiday == '') {
+			alert("휴무일을 입력하세요.");
+			return;
+		}
+		
+		let deliveryArea = $('#deliveryArea').val().trim();
+		if (deliveryArea == '') {
+			alert("배달지역을 입력하세요.");
+			return;
+		}
+		
+		let deliveryCost = $('#deliveryCost').val().trim();
+		if (deliveryCost == '') {
+			alert("배달비를 입력하세요.");
+			return;
+		}
+		
+		let file = $('#file').val();
+		if (file == '') {
+			alert("매장대표사진을 첨부하세요.");
+			return;
+		}
+		
+		let minimumPrice = $('#minimumPrice').val().trim();
+		let facilities = $('#facilities').val().trim();
+		
+		let check = /^[0-9]+$/;
+		if (check.test(minimumPrice) === false || check.test(deliveryCost) === false) {
+			alert("최소주문금액과 배달비는 숫자만 입력 가능합니다.");
+			return;
+		}
+
+		let formData = new FormData();
+		if (minimumPrice != "") {
+			formData.append("minimumPrice", minimumPrice);
+		}
+		formData.append("storeId", storeId);
+		formData.append("openTime", openTime);
+		formData.append("closeTime", closeTime);
+		formData.append("holiday", holiday);
+		formData.append("deliveryArea", deliveryArea);
+		formData.append("deliveryCost", deliveryCost);
+		if (facilities != "") {
+			formData.append("facilities", facilities);
+		}
+		formData.append("file", $("#file")[0].files[0]);
+		
+		$.ajax({
+			type:"post"
+			, url:"/store/update_store"
+			, data: formData
+			, enctype: "multipart/form-data" // 파일 업로드를 위한 필수 설정
+			, processData: false // 파일 업로드를 위한 필수 설정
+			, contentType: false // 파일 업로드를 위한 필수 설정
+			, success: function(data) {
+				if (data.result == "success") {
+					alert("매장이 성공적으로 수정되었습니다.");
+					location.href = "/main/boss/main_view";
+				} else {
+					alret(data.error_message);
+				}
+			}
+			, error: function(e) {
+				alert("매장 등록에 실패했습니다. 관리자에게 문의 해주세요.");
+			}
+		});
 	});
 });
 </script>

@@ -47,7 +47,7 @@
 			<small id="phNumCheckOk" class="d-none text-success">사용가능한 전화번호입니다.</small>
 		</div>
 		<div class="pl-5 pt-3">
-			<span>최소 주문금액</span><input type="text" id="minimumPrice" class="form-control col-10" placeholder="금액을 입력해주세요.">
+			<span>최소 주문금액</span><input type="text" id="minimumPrice" class="form-control col-10" placeholder="금액을 입력해주세요. ex) 8000">
 		</div>
 		<div class="pl-5 pt-3">
 			<span>오픈시간</span><span class="text-danger">*</span><input type="time" id="openTime" class="form-control col-10">
@@ -286,6 +286,12 @@ $(document).ready(function() {
 		let minimumPrice = $('#minimumPrice').val().trim();
 		let facilities = $('#facilities').val().trim();
 		
+		let check = /^[0-9]+$/;
+		if (check.test(minimumPrice) === false || check.test(deliveryCost) === false) {
+			alert("최소주문금액과 배달비는 숫자만 입력 가능합니다.");
+			return;
+		}
+
 		let formData = new FormData();
 		formData.append("name", name);
 		formData.append("category", category);

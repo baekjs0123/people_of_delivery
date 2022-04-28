@@ -35,6 +35,9 @@
 .create-store {width: 800px; margin: auto;}
 .create-store-box {background-color : WhiteSmoke;}
 
+.create-menu {width: 900px; margin: auto;}
+.create-menu-box {background-color : WhiteSmoke;}
+
 a {text-decoration-line: none; color:#000;}
 a:hover {text-decoration:none; color:#000;}
 .footer {width: 1200px; height: 100px;}

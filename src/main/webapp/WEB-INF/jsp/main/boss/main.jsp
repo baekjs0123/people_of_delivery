@@ -16,4 +16,20 @@
 			</div>
 		</a>
 	</div>
+	
+	<%-- 메뉴 추가, 수정 선택 --%>
+	<div class="select-box d-flex justify-content-center mt-5">
+		<a href="/store/create_menu_view">
+			<h2>메뉴 추가하기</h2>
+			<div class="select mr-5">
+				<img src="/images/add_icon.png" alt="메뉴 추가" width="300px" height="300px">
+			</div>
+		</a>
+		<a href="/store/update_menu_view" class="ml-5">
+			<h2>메뉴 수정하기</h2>
+			<div class="select">
+				<img src="/images/edit_icon.png" alt="메뉴 수정" width="300px" height="300px">
+			</div>
+		</a>
+	</div>
 </div>

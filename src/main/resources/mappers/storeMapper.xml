@@ -30,6 +30,54 @@
 			`phoneNumber` = #{phoneNumber}
 	</select>
 	
+	<select id="selectStoreById" parameterType="int" resultType="com.people_of_delivery.store.model.Store">
+		SELECT 
+			`id`
+			,`userId`
+			,`name`
+			,`category`
+			,`registrationNumber`
+			,`phoneNumber`
+			,`minimumPrice`
+			,`openTime`
+			,`closeTime`
+			,`holiday`
+			,`deliveryArea`
+			,`deliveryCost`
+			,`facilities`
+			,`storeImagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`store`
+		WHERE
+			`id` = #{storeId}
+	</select>
+	
+	<select id="selectStoreListByUserId" parameterType="int" resultType="com.people_of_delivery.store.model.Store">
+		SELECT 
+			`id`
+			,`userId`
+			,`name`
+			,`category`
+			,`registrationNumber`
+			,`phoneNumber`
+			,`minimumPrice`
+			,`openTime`
+			,`closeTime`
+			,`holiday`
+			,`deliveryArea`
+			,`deliveryCost`
+			,`facilities`
+			,`storeImagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`store`
+		WHERE
+			`userId` = #{userId}
+	</select>
+	
 	<insert id="insertStore">
 		INSERT INTO `store`
 		(
@@ -63,8 +111,27 @@
 			,#{deliveryArea}
 			,#{deliveryCost}
 			,#{facilities}
+			,#{storeImagePath}
 			,NOW()
 			,NOW()
 		)
 	</insert>
+	
+	<update id="updateStore" parameterType="map">
+		UPDATE
+			`store`
+		SET
+			`minimumPrice` = #{minimumPrice}
+			,`openTime` = #{openTime}
+			,`closeTime` = #{closeTime}
+			,`holiday` = #{holiday}
+			,`deliveryArea` = #{deliveryArea}
+			,`deliveryCost` = #{deliveryCost}
+			,`facilities` = #{facilities}
+			,`storeImagePath` = #{storeImagePath}
+		WHERE
+			`userId` = #{userId}
+			AND `id` = #{storeId}
+		
+	</update>
 </mapper>
