@@ -1,6 +1,7 @@
 package com.people_of_delivery.store;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -102,6 +103,25 @@ public class StoreRestController {
 			result.put("result", "error");
 			result.put("error_message", "매장수정에 실패했습니다. 다시 시도해주세요.");
 		}
+		
+		return result;
+	}
+	
+	@PostMapping("/create_menu")
+	public Map<String, Object> createMenu(
+			@RequestParam("menuList") List<Map<String, Object>> menuList,
+			@RequestParam("storeId") int storeId,
+			HttpSession session) {
+		
+		Integer userId = (Integer)session.getAttribute("userId");
+		
+		//int row = storeBO.updateMenu(userId, storeId, minimumPrice, openTime, closeTime, holiday, deliveryArea, deliveryCost, facilities, file);
+		Map<String, Object> result = new HashMap<>();
+		result.put("result", "success");
+		/*
+		 * if (row < 1) { result.put("result", "error"); result.put("error_message",
+		 * "매장수정에 실패했습니다. 다시 시도해주세요."); }
+		 */
 		
 		return result;
 	}
