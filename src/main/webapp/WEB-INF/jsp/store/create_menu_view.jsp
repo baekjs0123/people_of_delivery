@@ -152,21 +152,26 @@ $(document).ready(function() {
 	$('#createBtn').on('click', function() {
 		//alert("추가하기");
 		var menuList = new Array();
-		var menuCount = $('.menu').length;
-		var fileCheck = null;
-		
+		var fileList = new Array();
+		var fileInput = $('.file');
+		console.log(fileInput);
 		let formData = new FormData();
 		
-		for (let i = 0; i < menuCount; i++) {
+		for (let i = 0; i < fileInput.length; i++) {
 			let obj = new Object();
+			let fileObj = new Object();
 			obj.category = $(".menu .categorySelect").eq(i).val().trim();
 			obj.menuName = $(".menuName").eq(i).val().trim();
 			obj.menuPrice = $(".menuPrice").eq(i).val().trim();
-			obj.file = $(".file").eq(i).val().trim();
-			obj.menuExplanation = $(".menuExplanation").eq(i).val().trim();
-			if (obj.file != '') {
-				formData.append("file", $(".file")[0].files[0]);
+			fileObj.file = $('.file')[i].files[0];
+			console.log($('.file')[i].files[0]);
+			//formData.append('file', $('.file')[i].files[0]);
+			if ($(".menuExplanation").eq(i).val().trim() != '') {
+				obj.menuExplanation = $(".menuExplanation").eq(i).val().trim();
+			} else {
+				obj.menuExplanation = "null";
 			}
+			
 			if (obj.menuName == "") {
 				alert("메뉴명을 입력해주세요.")
 				return;
@@ -177,69 +182,47 @@ $(document).ready(function() {
 				return;
 			}
 			
-			if (obj.file == "") {
-				fileCheck = false;
-			} else {
-				fileCheck = true;
-			}
-			
 			let check = /^[0-9]+$/;
 			if (check.test(obj.menuPrice) === false) {
 				alert("메뉴가격은 숫자만 입력 가능합니다.");
 				return;
 			}
 			
-			//console.log(obj);
 			menuList.push(obj);
+			fileList.push(fileObj);
 		}
 		let storeId = $('#storeSelect').val();
 		//alert(storeId);
-		let menuListData = JSON.stringify(menuList);
-		console.log(fileCheck);
 		console.log(storeId);
 		console.log(menuList);
+		console.log(fileList);
+		menuListData = JSON.stringify(menuList);
+		console.log(menuListData);
 		
-		formData.append("menuList", menuListData);
+		
+		formData.append('menuList', menuListData);
+		formData.append('fileList', fileList);
 		formData.append("storeId", storeId);
 		
-		if (fileCheck) {
-			$.ajax({
-				type:"post"
-				, url:"/store/create_menu"
-				, data: formData
-				, enctype: "multipart/form-data" // 파일 업로드를 위한 필수 설정
-				, processData: false // 파일 업로드를 위한 필수 설정
-				, contentType: false // 파일 업로드를 위한 필수 설정
-				, success: function(data) {
-					if (data.result == "success") {
-						alert("메뉴가 성공적으로 등록되었습니다.");
-						location.href = "/main/boss/main_view";
-					} else {
-						alret(data.error_message);
-					}
+		$.ajax({
+			type:"post"
+			, url:"/store/create_menu"
+			, data: formData
+			, enctype: "multipart/form-data" // 파일 업로드를 위한 필수 설정
+			, processData: false // 파일 업로드를 위한 필수 설정
+			, contentType: false // 파일 업로드를 위한 필수 설정
+			, success: function(data) {
+				if (data.result == "success") {
+					alert("메뉴가 성공적으로 등록되었습니다.");
+					location.href = "/main/boss/main_view";
+				} else {
+					alret(data.error_message);
 				}
-				, error: function(e) {
-					alert("메뉴 등록에 실패했습니다. 관리자에게 문의 해주세요.");
-				}
-			});
-		} else {
-			$.ajax({
-				type:"post"
-				, url:"/store/create_menu"
-				, data: formData
-				, success: function(data) {
-					if (data.result == "success") {
-						alert("메뉴가 성공적으로 등록되었습니다.");
-						location.href = "/main/boss/main_view";
-					} else {
-						alret(data.error_message);
-					}
-				}
-				, error: function(e) {
-					alert("메뉴 등록에 실패했습니다. 관리자에게 문의 해주세요.");
-				}
-			});
-		}
+			}
+			, error: function(e) {
+				alert("메뉴 등록에 실패했습니다. 관리자에게 문의 해주세요.");
+			}
+		});
 	});
 });
 </script>
