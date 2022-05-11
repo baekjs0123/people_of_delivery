@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.people_of_delivery.store.bo.StoreBO;
+import com.people_of_delivery.store.bo.StoreViewBO;
 import com.people_of_delivery.store.model.Store;
+import com.people_of_delivery.store.model.StoreView;
 
 @RequestMapping("/store")
 @Controller
@@ -20,10 +22,17 @@ public class StoreController {
 	@Autowired
 	StoreBO storeBO;
 	
+	@Autowired
+	StoreViewBO storeViewBO;
+	
 	@RequestMapping("/store_list_view")
-	public String storeListView(Model model) {
+	public String storeListView(Model model,
+			@RequestParam("category") String category) {
 		
+		List<Store> storeList = storeBO.getStoreListByCategory(category);
 		model.addAttribute("viewName", "store/store_list");
+		model.addAttribute("category", category);
+		model.addAttribute("storeList", storeList);
 		
 		return "template/layout";
 	}
@@ -65,6 +74,21 @@ public class StoreController {
 		List<Store> storeList = storeBO.getStoreListByUserId(userId);
 		model.addAttribute("viewName", "store/create_menu_view");
 		model.addAttribute("storeList", storeList);
+		
+		return "template/layout";
+	}
+	
+	@RequestMapping("/menu_list_view")
+	public String menuListView(
+			@RequestParam("storeId") int storeId,
+			Model model,
+			HttpSession session) {
+		Integer userId = (Integer) session.getAttribute("userId");
+		
+		StoreView storeView = storeViewBO.generateStoreView(storeId, userId);
+		
+		model.addAttribute("viewName", "store/menu_list");
+		model.addAttribute("storeView", storeView);
 		
 		return "template/layout";
 	}

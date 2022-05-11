@@ -33,7 +33,11 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		// 비로그인 && uri path가 /user/mypage
 		// -> 로그인 페이지로 리다이렉트 return false
 		
-		 if (userId == null && uri.startsWith("/user/mypage")) {
+		 if (userId == null && (uri.startsWith("/user/mypage") || uri.startsWith("/user/update"))) {
+			 response.sendRedirect("/user/sign_in_view"); 
+			 return false;
+		 }
+		 if (userId == null && (uri.startsWith("/store/create") || uri.startsWith("/store/update"))) {
 			 response.sendRedirect("/user/sign_in_view"); 
 			 return false;
 		 }

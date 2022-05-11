@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.people_of_delivery.favorite.dao.FavoriteDAO">
+	<select id="selectLikeCountByStoreIdOrUserId" parameterType="map" resultType="int">
+		SELECT
+ 			count(1)
+ 		FROM
+ 			`favorite`
+ 		WHERE
+ 			`storeId` = #{storeId}
+ 			<if test="userId != null">
+ 			AND `userId` = #{userId}
+ 			</if>
+	</select>
+	
+	<select id="selectLikeCountByStoreId" parameterType="int" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`favorite`
+		WHERE
+			`storeId` = #{storeId}
+	</select>
+	
+	<insert id="insertLike" parameterType="map">
+		INSERT INTO `favorite`
+ 		(
+ 			`storeId`
+ 			, `userId`
+ 			, `createdAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{storeId}
+ 			, #{userId}
+ 			, NOW()
+ 		)
+	</insert>
+	
+	<delete id="deleteLikeByStoreIdUserId" parameterType="map">
+		DELETE
+		FROM
+			`favorite`
+		WHERE
+			`storeId` = #{storeId}
+			AND `userId` = #{userId}
+	</delete>
+	
+	<delete id="deleteLikeByStoreId" parameterType="int">
+		DELETE
+		FROM
+			`favorite`
+		WHERE
+			`storeId` = #{storeId}
+	</delete>
+</mapper>

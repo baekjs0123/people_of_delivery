@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.people_of_delivery.common.FileManagerService;
 import com.people_of_delivery.store.bo.StoreBO;
 
 @RequestMapping("/store")
@@ -22,9 +22,6 @@ public class StoreRestController {
 	
 	@Autowired
 	private StoreBO storeBO;
-	
-	@Autowired
-	private FileManagerService fileManagerService;
 	
 	/**
 	 * 가게명 중복확인
@@ -159,19 +156,21 @@ public class StoreRestController {
 	
 	@PostMapping("/create_menu")
 	public Map<String, Object> createMenu(
-			@RequestParam("menuList") List<Map<String, Object>> menuList,
-			@RequestParam(value = "fileList",  required = false) List<MultipartFile> fileList,
+			@RequestPart("menuList") List<Map<String, Object>> menuList,
+			@RequestPart(value = "file",  required = false) List<MultipartFile> fileList,
 			@RequestParam("storeId") int storeId,
 			HttpSession session) {
 		Integer userId = (Integer)session.getAttribute("userId");
 		
-		//int row = storeBO.updateMenu(userId, storeId, minimumPrice, openTime, closeTime, holiday, deliveryArea, deliveryCost, facilities, file);
+		int row = storeBO.createMenu(userId, storeId, menuList, fileList);
 		Map<String, Object> result = new HashMap<>();
 		result.put("result", "success");
-		/*
-		 * if (row < 1) { result.put("result", "error"); result.put("error_message",
-		 * "매장수정에 실패했습니다. 다시 시도해주세요."); }
-		 */
+	
+		if (row < 1) {
+			result.put("result", "error"); 
+			result.put("error_message", "메뉴추가에 실패했습니다. 다시 시도해주세요."); 
+		}
+		
 		
 		return result;
 	}

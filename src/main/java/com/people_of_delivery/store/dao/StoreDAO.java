@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.people_of_delivery.store.model.Menu;
 import com.people_of_delivery.store.model.Store;
 
 @Repository
@@ -20,6 +21,10 @@ public interface StoreDAO {
 	
 	public List<Store> selectStoreListByUserId(int userId);
 	
+	public List<Store> selectStoreListByCategory(String category);
+	
+	public List<Menu> selectMenuListByStoreId(int storeId);
+	
 	public int insertStore(
 			@Param("userId") int userId,
 			@Param("name") String name,
@@ -34,6 +39,14 @@ public interface StoreDAO {
 			@Param("deliveryCost") int deliveryCost,
 			@Param("facilities") String facilities,
 			@Param("storeImagePath") String storeImagePath);
+	
+	public int createMenu(
+			@Param("storeId") int storeId,
+			@Param("category") String category,
+			@Param("name") String menuName,
+			@Param("price") int menuPrice,
+			@Param("imagePath") String menuImagePath,
+			@Param("explanation") String menuExplanation);
 	
 	public int updateStore(
 			@Param("userId") int userId,

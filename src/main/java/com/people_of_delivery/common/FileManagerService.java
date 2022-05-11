@@ -32,6 +32,8 @@ public class FileManagerService {
 		byte[] bytes = file.getBytes();
 		// C:\\Users\\baekj\\Desktop\\6_spring_project\\quiz_sns\\workspace\\images/baekjs0123_16205748673/sun.png
 		String fileName =  file.getOriginalFilename().replaceAll(" ", "");
+		fileName = new String(fileName.getBytes("8859_1"), "UTF-8");
+		
 		Path path = Paths.get(filePath + fileName);
 		Files.write(path, bytes);
 		

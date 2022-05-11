@@ -37,7 +37,13 @@
 
 .create-menu {width: 900px; margin: auto;}
 .create-menu-box {background-color : WhiteSmoke;}
+.update-menu {width: 900px; margin: auto;}
+.update-menu-box {background-color : WhiteSmoke;}
 .menu {width: 870px; margin: auto; border: solid 2px #D8D8D8;}
+
+.top-menu {width: 900px; margin: auto; background-color : WhiteSmoke;}
+.store-menu {width: 900px; margin: auto;}
+.menu-box{width: 900px; background-color : WhiteSmoke;}
 
 a {text-decoration-line: none; color:#000;}
 a:hover {text-decoration:none; color:#000;}

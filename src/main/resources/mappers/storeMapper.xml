@@ -78,7 +78,48 @@
 			`userId` = #{userId}
 	</select>
 	
-	<insert id="insertStore">
+	<select id="selectStoreListByCategory" parameterType="string" resultType="com.people_of_delivery.store.model.Store">
+		SELECT 
+			`id`
+			,`userId`
+			,`name`
+			,`category`
+			,`registrationNumber`
+			,`phoneNumber`
+			,`minimumPrice`
+			,`openTime`
+			,`closeTime`
+			,`holiday`
+			,`deliveryArea`
+			,`deliveryCost`
+			,`facilities`
+			,`storeImagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`store`
+		WHERE
+			`category` = #{category}
+	</select>
+	
+	<select id="selectMenuListByStoreId" parameterType="int" resultType="com.people_of_delivery.store.model.Menu">
+		SELECT 
+			`id`
+			,`storeId`
+			,`category`
+			,`name`
+			,`price`
+			,`explanation`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`menu`
+		WHERE
+			`storeId` = #{storeId}
+	</select>
+	
+	<insert id="insertStore"  parameterType="map">
 		INSERT INTO `store`
 		(
 			`userId`
@@ -112,6 +153,31 @@
 			,#{deliveryCost}
 			,#{facilities}
 			,#{storeImagePath}
+			,NOW()
+			,NOW()
+		)
+	</insert>
+	
+	<insert id="createMenu" parameterType="map">
+		INSERT INTO `menu`
+		(
+			`storeId`
+			,`category`
+			,`name`
+			,`price`
+			,`explanation`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{storeId}
+			,#{category}
+			,#{name}
+			,#{price}
+			,#{explanation}
+			,#{imagePath}
 			,NOW()
 			,NOW()
 		)

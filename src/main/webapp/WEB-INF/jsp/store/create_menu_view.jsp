@@ -152,24 +152,21 @@ $(document).ready(function() {
 	$('#createBtn').on('click', function() {
 		//alert("추가하기");
 		var menuList = new Array();
-		var fileList = new Array();
 		var fileInput = $('.file');
 		console.log(fileInput);
 		let formData = new FormData();
 		
 		for (let i = 0; i < fileInput.length; i++) {
 			let obj = new Object();
-			let fileObj = new Object();
 			obj.category = $(".menu .categorySelect").eq(i).val().trim();
 			obj.menuName = $(".menuName").eq(i).val().trim();
 			obj.menuPrice = $(".menuPrice").eq(i).val().trim();
-			fileObj.file = $('.file')[i].files[0];
 			console.log($('.file')[i].files[0]);
-			//formData.append('file', $('.file')[i].files[0]);
+			formData.append('file', $('.file')[i].files[0]);
 			if ($(".menuExplanation").eq(i).val().trim() != '') {
 				obj.menuExplanation = $(".menuExplanation").eq(i).val().trim();
 			} else {
-				obj.menuExplanation = "null";
+				obj.menuExplanation = "";
 			}
 			
 			if (obj.menuName == "") {
@@ -189,19 +186,13 @@ $(document).ready(function() {
 			}
 			
 			menuList.push(obj);
-			fileList.push(fileObj);
 		}
 		let storeId = $('#storeSelect').val();
 		//alert(storeId);
 		console.log(storeId);
 		console.log(menuList);
-		console.log(fileList);
-		menuListData = JSON.stringify(menuList);
-		console.log(menuListData);
 		
-		
-		formData.append('menuList', menuListData);
-		formData.append('fileList', fileList);
+		formData.append('menuList', new Blob([JSON.stringify(menuList)], {type : "application/json"}));
 		formData.append("storeId", storeId);
 		
 		$.ajax({
