@@ -89,6 +89,7 @@ public class StoreController {
 		
 		model.addAttribute("viewName", "store/menu_list");
 		model.addAttribute("storeView", storeView);
+		model.addAttribute("userId", userId);
 		
 		return "template/layout";
 	}
