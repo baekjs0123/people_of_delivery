@@ -23,7 +23,7 @@ public class FavoriteRestController {
 	private FavoriteBO favoriteBO;
 	
 	
-	@RequestMapping("/favorite/{postId}")
+	@RequestMapping("/favorite/{storeId}")
 	public Map<String, Object> like(
 			@PathVariable("storeId") int storeId,
 			HttpServletRequest request) {
