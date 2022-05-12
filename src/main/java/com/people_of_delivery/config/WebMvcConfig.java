@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry
 		.addResourceHandler("/download_images/**")  // http://localhost/images/baekjs0123_16205748673/sun.png  와 같이 접근 가능하게 매핑해준다.
-		.addResourceLocations("file:///" + FileManagerService.FILE_UPLOAD_PATH); // 실제 파일 저장 위치
+		.addResourceLocations("file://" + FileManagerService.FILE_UPLOAD_PATH); // 실제 파일 저장 위치
 		
 	}
 	
