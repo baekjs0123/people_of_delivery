@@ -3,7 +3,7 @@ package com.people_of_delivery.favorite.dao;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository("favoriteDAO")
 public interface FavoriteDAO {
 	public int selectLikeCountByStoreIdOrUserId(
 			@Param("storeId") int storeId, 
