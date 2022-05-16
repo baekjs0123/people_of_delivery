@@ -8,7 +8,7 @@ import com.people_of_delivery.favorite.dao.FavoriteDAO;
 @Service
 public class FavoriteBO {
 	
-	@Autowired(required=true)
+	@Autowired(required=false)
 	private FavoriteDAO favoriteDAO;
 	
 	public void like(int storeId, int userId) {
